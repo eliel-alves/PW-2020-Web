@@ -1,0 +1,17 @@
+.ui-widget{
+    font-size: 14px !important;
+}
+
+.ui-menuitem-icon {
+    color: #2196f3 !important;
+}
+
+body {
+    background-color: #182130;
+    color: #fff;
+    font-family: sans-serif;
+}
+
+.ui-menu.ui-megamenu .ui-menu-child .ui-menu-list {
+    width: 230px !important;
+}
