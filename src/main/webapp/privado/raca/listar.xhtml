@@ -21,11 +21,56 @@
                                  oncomplete="PF('dlg').show()"/>
                 </div>
                 
+                <div align="center">
+                    <p:panelGrid columns="11">
+                        <p:outputLabel value="Ordem:"/>
+                        <p:selectOneMenu value="#{controleRaca.dao.ordemAtual}"
+                                         converter="#{controleRaca.dao.converterOrdem}">
+                            <f:selectItems value="#{controleRaca.dao.listaOrdem}" var="ord"
+                                           itemValue="#{ord.atributo}"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro: "/>
+                        <p:inputText value="#{controleRaca.dao.filtro}">
+                            <p:ajax event="blur" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Filtrar" update="listagem"/>
+                        <p:outputLabel value="Máximo de objetos: "/>
+                        <p:selectOneMenu value="#{controleRaca.dao.maximoObjetos}">
+                            <f:selectItem itemValue="3" itemLabel="3"/>
+                            <f:selectItem itemValue="5" itemLabel="5"/>
+                            <f:selectItem itemValue="10" itemLabel="10"/>
+                            <f:selectItem itemValue="20" itemLabel="20"/>
+                            <f:selectItem itemValue="50" itemLabel="50"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:commandButton action="#{controleRaca.dao.primeiro()}"
+                                         title="Primeiro" update="listagem"
+                                         icon="pi pi-step-backward"/>
+
+                        <p:commandButton action="#{controleRaca.dao.anterior()}"
+                                         title="Anterior" update="listagem"
+                                         icon="pi pi-chevron-left"/>
+
+                        <p:commandButton action="#{controleRaca.dao.proximo()}"
+                                         title="Próximo" update="listagem"
+                                         icon="pi pi-chevron-right"/>
+
+                        <p:commandButton action="#{controleRaca.dao.ultimo()}"
+                                         title="Último" update="listagem"
+                                         icon="pi pi-step-forward"/>
+                    </p:panelGrid>
+                </div>
+                
                 <p:dataTable value="#{controleRaca.dao.listaObjetos}" var="obj"
                              id="listagem">
                     <f:facet name="header">
                         <div style="text-align: center;">Lista de Todas as Raças</div>
                     </f:facet>
+                    <f:facet name="footer">
+                        <p:outputLabel value="#{controleRaca.dao.mensagemNavegacao()}"/>
+                    </f:facet>
+                    
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
                     </p:column>

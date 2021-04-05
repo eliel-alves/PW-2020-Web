@@ -21,11 +21,56 @@
                                  oncomplete="PF('dlg').show()"/>
                 </div>
                 
+                <div align="center">
+                    <p:panelGrid columns="11">
+                        <p:outputLabel value="Ordem:"/>
+                        <p:selectOneMenu value="#{controleProduto.dao.ordemAtual}"
+                                         converter="#{controleProduto.dao.converterOrdem}">
+                            <f:selectItems value="#{controleProduto.dao.listaOrdem}" var="ord"
+                                           itemValue="#{ord.atributo}"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Filtro: "/>
+                        <p:inputText value="#{controleProduto.dao.filtro}">
+                            <p:ajax event="blur" update="listagem"/>
+                        </p:inputText>
+                        <p:commandButton value="Filtrar" update="listagem"/>
+                        <p:outputLabel value="Máximo de objetos: "/>
+                        <p:selectOneMenu value="#{controleProduto.dao.maximoObjetos}">
+                            <f:selectItem itemValue="3" itemLabel="3"/>
+                            <f:selectItem itemValue="5" itemLabel="5"/>
+                            <f:selectItem itemValue="10" itemLabel="10"/>
+                            <f:selectItem itemValue="20" itemLabel="20"/>
+                            <f:selectItem itemValue="50" itemLabel="50"/>
+                            <p:ajax update="listagem"/>
+                        </p:selectOneMenu>
+                        <p:commandButton action="#{controleProduto.dao.primeiro()}"
+                                         title="Primeiro" update="listagem"
+                                         icon="pi pi-step-backward"/>
+
+                        <p:commandButton action="#{controleProduto.dao.anterior()}"
+                                         title="Anterior" update="listagem"
+                                         icon="pi pi-chevron-left"/>
+
+                        <p:commandButton action="#{controleProduto.dao.proximo()}"
+                                         title="Próximo" update="listagem"
+                                         icon="pi pi-chevron-right"/>
+
+                        <p:commandButton action="#{controleProduto.dao.ultimo()}"
+                                         title="Último" update="listagem"
+                                         icon="pi pi-step-forward"/>
+                    </p:panelGrid>
+                </div>
+                
                 <p:dataTable value="#{controleProduto.dao.listaObjetos}" var="obj"
                              id="listagem">
                     <f:facet name="header">
                         <div style="text-align: center;">Lista de Todos os Produtos</div>
                     </f:facet>
+                    <f:facet name="footer">
+                        <p:outputLabel value="#{controleProduto.dao.mensagemNavegacao()}"/>
+                    </f:facet>
+                    
                     <p:column headerText="ID">
                         <p:outputLabel value="#{obj.id}"/>
                     </p:column>
